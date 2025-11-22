@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Stats — <%= link ? link.shortId : 'Not found' %> | TinyLink</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <div class="header-content">
+          <div class="logo-section">
+            <a href="/" class="logo">
+              <i class="fas fa-link"></i>
+              <h1 class="brand">TinyLink</h1>
+            </a>
+          </div>
+          <nav class="header-nav">
+            <a href="/" class="nav-link">
+              <i class="fas fa-home"></i>
+              Dashboard
+            </a>
+            <a href="/healthz" class="nav-link">
+              <i class="fas fa-heartbeat"></i>
+              Health
+            </a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="wrap">
+        <% if (error) { %>
+        <section class="card error-card">
+          <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <h2>Link Not Found</h2>
+          <p class="error-message"><%= error %></p>
+          <div class="error-actions">
+            <a href="/" class="btn btn-primary">
+              <i class="fas fa-arrow-left"></i>
+              Back to Dashboard
+            </a>
+          </div>
+        </section>
+        <% } else { %>
+        <section class="card stats-card">
+          <div class="card-header">
+            <h2>
+              <i class="fas fa-chart-line"></i>
+              Link Analytics
+            </h2>
+            <div class="code-badge">
+              <i class="fas fa-hashtag"></i>
+              <%= link.shortId %>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-mouse-pointer"></i>
+              </div>
+              <div class="stat-content">
+                <h3 class="stat-value"><%= link.clicks || 0 %></h3>
+                <p class="stat-label">Total Clicks</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="stat-content">
+                <h3 class="stat-value">
+                  <%= link.lastClicked ? new
+                  Date(link.lastClicked).toLocaleDateString() : '-' %>
+                </h3>
+                <p class="stat-label">Last Clicked</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-calendar-plus"></i>
+              </div>
+              <div class="stat-content">
+                <h3 class="stat-value">
+                  <%= link.createdAt ? new
+                  Date(link.createdAt).toLocaleDateString() : '-' %>
+                </h3>
+                <p class="stat-label">Created Date</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="link-details">
+            <div class="detail-group">
+              <h3>
+                <i class="fas fa-link"></i>
+                Short URL
+              </h3>
+              <div class="url-display">
+                <span id="shortUrl"
+                  ><%= process.env.BASE_URL || (typeof location !== 'undefined'
+                  ? location.origin : '') %>/<%= link.shortId %></span
+                >
+                <button
+                  id="copyBtn"
+                  class="btn-icon"
+                  title="Copy to clipboard"
+                  type="button"
+                >
+                  <i class="fas fa-copy"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="detail-group">
+              <h3>
+                <i class="fas fa-external-link-alt"></i>
+                Target URL
+              </h3>
+              <div class="url-display long-url">
+                <a href="<%= link.longUrl %>" target="_blank" class="truncate">
+                  <%= link.longUrl %>
+                </a>
+              </div>
+            </div>
+
+            <div class="detail-group">
+              <h3>
+                <i class="fas fa-calendar"></i>
+                Detailed Timestamps
+              </h3>
+              <div class="timestamps">
+                <p>
+                  <strong>Created:</strong> <%= link.createdAt ? new
+                  Date(link.createdAt).toLocaleString() : 'Never' %>
+                </p>
+                <p>
+                  <strong>Last Updated:</strong> <%= link.updatedAt ? new
+                  Date(link.updatedAt).toLocaleString() : 'Never' %>
+                </p>
+                <p>
+                  <strong>Last Clicked:</strong> <%= link.lastClicked ? new
+                  Date(link.lastClicked).toLocaleString() : 'Never' %>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <a
+              class="btn btn-primary"
+              href="/<%= link.shortId %>"
+              target="_blank"
+            >
+              <i class="fas fa-external-link-alt"></i>
+              Test Redirect
+            </a>
+            <button id="copyBtnMain" class="btn btn-secondary" type="button">
+              <i class="fas fa-copy"></i>
+              Copy Short URL
+            </button>
+            <button id="delBtn" class="btn btn-danger" type="button">
+              <i class="fas fa-trash-alt"></i>
+              Delete Link
+            </button>
+            <a href="/" class="btn btn-outline">
+              <i class="fas fa-arrow-left"></i>
+              Back to Dashboard
+            </a>
+          </div>
+        </section>
+        <% } %>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <i class="fas fa-link"></i>
+            <span>TinyLink</span>
+          </div>
+          <div class="footer-copy">© 2023 TinyLink — Modern URL Shortener</div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Copy functionality
+        const copyBtns = document.querySelectorAll("#copyBtn, #copyBtnMain");
+        copyBtns.forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            try {
+              const shortUrl =
+                document.getElementById("shortUrl")?.textContent ||
+                window.location.origin +
+                  "/" +
+                  '<%= link ? link.shortId : "" %>';
+              await navigator.clipboard.writeText(shortUrl);
+
+              // Update button text temporarily
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              btn.classList.add("copied");
+
+              // For the main copy button, update text
+              if (btn.id === "copyBtnMain") {
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              }
+
+              setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove("copied");
+              }, 2000);
+            } catch (e) {
+              alert("Copy failed. Please try again.");
+            }
+          });
+        });
+
+        // Delete functionality
+        const delBtn = document.getElementById("delBtn");
+        if (delBtn) {
+          delBtn.addEventListener("click", async () => {
+            if (
+              !confirm(
+                'Are you sure you want to delete "<%= link.shortId %>"? This action cannot be undone.'
+              )
+            )
+              return;
+
+            // Show loading state
+            const originalText = delBtn.innerHTML;
+            delBtn.innerHTML =
+              '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+            delBtn.disabled = true;
+
+            try {
+              const res = await fetch("/api/links/<%= link.shortId %>", {
+                method: "DELETE",
+              });
+
+              if (res.ok) {
+                // Show success message and redirect
+                const card = document.querySelector(".stats-card");
+                card.innerHTML = `
+                <div class="success-state">
+                  <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                  </div>
+                  <h2>Link Deleted Successfully</h2>
+                  <p>The short link "<%= link.shortId %>" has been permanently removed.</p>
+                  <a href="/" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                  </a>
+                </div>
+              `;
+              } else {
+                const data = await res.json();
+                alert(data.error || "Delete failed. Please try again.");
+
+                // Reset button state
+                delBtn.innerHTML = originalText;
+                delBtn.disabled = false;
+              }
+            } catch (e) {
+              alert(
+                "Delete failed. Please check your connection and try again."
+              );
+
+              // Reset button state
+              delBtn.innerHTML = originalText;
+              delBtn.disabled = false;
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

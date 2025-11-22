@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TinyLink — Modern URL Shortener</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="site-header">
+      <div class="wrap">
+        <div class="header-content">
+          <div class="logo-section">
+            <div class="logo">
+              <i class="fas fa-link"></i>
+              <h1 class="brand">TinyLink</h1>
+            </div>
+            <p class="tagline">Shorten URLs with style</p>
+          </div>
+          <nav class="header-nav">
+            <a href="/" class="nav-link active">
+              <i class="fas fa-home"></i>
+              Dashboard
+            </a>
+            <a href="/healthz" class="nav-link">
+              <i class="fas fa-heartbeat"></i>
+              Health
+            </a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="wrap">
+        <!-- Hero Section -->
+        <section class="hero-section">
+          <div class="hero-content">
+            <h2 class="hero-title">Shorten URLs in Style</h2>
+            <p class="hero-description">
+              Create beautiful, trackable short links with custom codes and
+              detailed analytics.
+            </p>
+          </div>
+          <div class="hero-graphic">
+            <div class="graphic-circle">
+              <i class="fas fa-link"></i>
+            </div>
+          </div>
+        </section>
+
+        <!-- Create Link Card -->
+        <section class="card form-card glass-card">
+          <div class="card-header">
+            <h2>
+              <i class="fas fa-plus-circle"></i>
+              Create Short Link
+            </h2>
+            <div class="card-badge">New</div>
+          </div>
+
+          <form id="createForm" class="create-form" autocomplete="off">
+            <div class="form-group">
+              <label class="form-label">
+                <i class="fas fa-globe"></i>
+                Long URL
+              </label>
+              <div class="input-with-icon">
+                <input
+                  id="longUrl"
+                  name="longUrl"
+                  class="form-input"
+                  type="url"
+                  placeholder="https://example.com/very-long-url-path"
+                  required
+                />
+                <i class="input-icon fas fa-link"></i>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label optional">
+                <i class="fas fa-pen"></i>
+                Custom Code (Optional)
+                <span class="hint">6-8 alphanumeric characters</span>
+              </label>
+              <div class="input-with-icon">
+                <input
+                  id="customCode"
+                  name="customCode"
+                  class="form-input"
+                  type="text"
+                  pattern="[A-Za-z0-9]{6,8}"
+                  placeholder="e.g. mylink"
+                />
+                <i class="input-icon fas fa-hashtag"></i>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button id="submitBtn" class="btn btn-primary" type="submit">
+                <i class="fas fa-magic"></i>
+                Create Short Link
+              </button>
+              <button id="clearBtn" type="button" class="btn btn-secondary">
+                <i class="fas fa-broom"></i>
+                Clear
+              </button>
+            </div>
+
+            <div id="formMessage" class="form-message" aria-live="polite"></div>
+          </form>
+        </section>
+
+        <!-- Links Table Section -->
+        <section class="card list-card">
+          <div class="card-header">
+            <h2>
+              <i class="fas fa-list"></i>
+              Your Shortened URLs
+            </h2>
+            <div class="card-actions">
+              <button
+                id="refreshBtn"
+                class="btn-icon"
+                title="Refresh"
+                type="button"
+              >
+                <i class="fas fa-sync-alt"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <div id="loadingState" class="loading-state">
+              <div class="loading-spinner"></div>
+              <p>Loading your links...</p>
+            </div>
+
+            <div id="emptyState" class="empty-state">
+              <div class="empty-icon">
+                <i class="fas fa-inbox"></i>
+              </div>
+              <h3>No links yet</h3>
+              <p>Create your first short link to get started!</p>
+            </div>
+
+            <div class="table-wrap">
+              <table id="linksTable" class="links-table">
+                <thead>
+                  <tr>
+                    <th>Short Code</th>
+                    <th>Target URL</th>
+                    <th class="text-center">Clicks</th>
+                    <th>Last Clicked</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- rows populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <i class="fas fa-link"></i>
+            <span>TinyLink</span>
+          </div>
+          <div class="footer-links">
+            <a href="/healthz" class="footer-link">
+              <i class="fas fa-heartbeat"></i>
+              Health Status
+            </a>
+          </div>
+          <div class="footer-copy">© 2023 TinyLink — Modern URL Shortener</div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/script.js" defer></script>
+  </body>
+</html>
