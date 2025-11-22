@@ -229,6 +229,10 @@ body {
   padding: 5%;
 }
 
+.list-card {
+  padding: 0;
+}
+
 .glass-card {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);

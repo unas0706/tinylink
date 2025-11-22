@@ -34,7 +34,7 @@ The app validates custom codes to match the rule: `[A-Za-z0-9]{6,8}`. The server
 1. Clone the repo
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/unas0706/tinylink
 cd TinyLink
 ```
 
@@ -231,7 +231,7 @@ Location: https://example.com/path
 - Success response (200):
 
 ```json
-{ "ok": true, "version": "1.0", "uptimeSeconds": 123 }
+{ "ok": true, "version": "1.0" }
 ```
 
 Notes:
@@ -241,81 +241,3 @@ Notes:
 - Field names and endpoints are kept stable for automated grading.
 
 ---
-
-## UI
-
-- Dashboard `/`: create short links (optional custom code), list links with copy/delete/view actions.
-- Stats `/code/:code`: shows details for a single short link.
-
-The UI is responsive and converts the table into stacked cards on small screens.
-
----
-
-## Deployment notes (examples)
-
-### Render (recommended for Express)
-
-1. Create a new "Web Service" in Render.
-2. Link your GitHub repo and choose the branch.
-3. Build command: `npm install`
-4. Start command: `node server.js`
-5. Add environment variables in the Render dashboard:
-   - `MONGO_URI` (your MongoDB connection string)
-   - `BASE_URL` (your Render URL, e.g., `https://your-app.onrender.com`)
-   - `PORT` (optional)
-
-Render will run the server and your app will be live.
-
-### Railway
-
-- Similar flow: create a new project, connect repo, set the start command to `node server.js`, and set environment variables. Railway has a PostgreSQL option, but this project uses MongoDB — use Atlas or another hosted Mongo.
-
-### Vercel
-
-- Vercel is more suited for frontend/Next.js. You can deploy an Express server on Vercel using serverless functions, but I'd recommend Render or Railway for the straightforward Node server.
-
----
-
-## Automated testing suggestions
-
-- You can add `jest` + `supertest` to assert endpoints:
-  - `/healthz` returns 200
-  - POST `/api/links` creates link and returns 201
-  - Duplicate POST returns 409
-  - GET `/:code` redirects (302) and increments clicks
-  - DELETE `/api/links/:code` removes link and `/:code` returns 404
-
-If you want, I can add a test suite (I can create `test/` with Jest & Supertest and an npm script `test`).
-
----
-
-## What I changed in the repo (high level)
-
-- Added API controller: `controllers/apiLinksController.js`
-- Added API routes: `routes/apiLinks.js`
-- Implemented SSR views: `views/index.ejs`, `views/stats.ejs`
-- Added client JS: `public/js/script.js`
-- Added modern responsive CSS: `public/style.css`
-- `models/Url.js` includes fields: `longUrl`, `shortId`, `clicks`, `lastClicked`
-- `routes/urlRoutes.js` includes dashboard, stats route and redirect
-- Health route: `routes/health.js`
-- Server wiring: `server.js`
-
----
-
-## Submission checklist
-
-- Public URL: (provide your deployed URL here)
-- GitHub URL: (provide repo URL)
-- Video walkthrough: (upload a short screen recording and add link)
-- ChatGPT / LLM transcript: (include link or file)
-
----
-
-If you'd like, I can:
-
-- Add automated tests (`supertest` + `jest`) and `npm test` command.
-- Add a small CI workflow (`.github/workflows/nodejs.yml`) that runs tests.
-- Prepare a `Procfile` and Render-specific notes or a Dockerfile.
-
-Tell me which of the above you'd like me to add next.
