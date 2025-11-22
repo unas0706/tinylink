@@ -23,7 +23,7 @@ This repository implements the assignment requirements:
 - SSR Dashboard: `/` (create, list, delete via UI)
 - Stats page: `/code/:code`
 - Redirect: `/:code` (302)
-- Health: `GET /healthz` → `{ ok: true, version: '1.0', uptimeSeconds }`
+- Health: `GET /healthz` → `{ ok: true, version: '1.0'}`
 
 The app validates custom codes to match the rule: `[A-Za-z0-9]{6,8}`. The server now validates `longUrl` format (must be a valid `http://` or `https://` URL).
 
